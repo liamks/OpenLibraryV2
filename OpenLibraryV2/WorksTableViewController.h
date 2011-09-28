@@ -8,6 +8,7 @@
 
 #import <UIKit/UIKit.h>
 #import "OpenLibrary.h"
+#import "BooksTableViewController.h"
 
 @interface WorksTableViewController : UITableViewController{
     

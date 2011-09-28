@@ -32,6 +32,7 @@
 		88B2CC0814326FBB00B8B6E7 /* WorksTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 88B2CC0714326FBB00B8B6E7 /* WorksTableViewController.m */; };
 		88B2CC0B1432719A00B8B6E7 /* OpenLibrary.m in Sources */ = {isa = PBXBuildFile; fileRef = 88B2CC0A1432719A00B8B6E7 /* OpenLibrary.m */; };
 		88B2CC0E143272E300B8B6E7 /* OLWork.m in Sources */ = {isa = PBXBuildFile; fileRef = 88B2CC0D143272E200B8B6E7 /* OLWork.m */; };
+		88B3419C14336EE000B68DCC /* BooksTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 88B3419B14336EE000B68DCC /* BooksTableViewController.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -80,8 +81,10 @@
 		88B2CC0714326FBB00B8B6E7 /* WorksTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WorksTableViewController.m; sourceTree = "<group>"; };
 		88B2CC091432719A00B8B6E7 /* OpenLibrary.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OpenLibrary.h; sourceTree = "<group>"; };
 		88B2CC0A1432719A00B8B6E7 /* OpenLibrary.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OpenLibrary.m; sourceTree = "<group>"; };
-		88B2CC0C143272E200B8B6E7 /* OLWork.h */ = {isa = PBXFileReference; fileEncoding = 4; path = OLWork.h; sourceTree = "<group>"; };
+		88B2CC0C143272E200B8B6E7 /* OLWork.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OLWork.h; sourceTree = "<group>"; };
 		88B2CC0D143272E200B8B6E7 /* OLWork.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OLWork.m; sourceTree = "<group>"; };
+		88B3419A14336EE000B68DCC /* BooksTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BooksTableViewController.h; sourceTree = "<group>"; };
+		88B3419B14336EE000B68DCC /* BooksTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BooksTableViewController.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -130,6 +133,8 @@
 			children = (
 				88B2CBDB14326D8100B8B6E7 /* iPad */,
 				88B2CBDF14326F7300B8B6E7 /* JSON */,
+				88B3419A14336EE000B68DCC /* BooksTableViewController.h */,
+				88B3419B14336EE000B68DCC /* BooksTableViewController.m */,
 				88B2CC0614326FBB00B8B6E7 /* WorksTableViewController.h */,
 				88B2CC0714326FBB00B8B6E7 /* WorksTableViewController.m */,
 				88B2CBCA14326D7000B8B6E7 /* OpenLibraryV2AppDelegate.h */,
@@ -279,6 +284,7 @@
 				88B2CC0814326FBB00B8B6E7 /* WorksTableViewController.m in Sources */,
 				88B2CC0B1432719A00B8B6E7 /* OpenLibrary.m in Sources */,
 				88B2CC0E143272E300B8B6E7 /* OLWork.m in Sources */,
+				88B3419C14336EE000B68DCC /* BooksTableViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -408,6 +414,7 @@
 				88B2CBDA14326D7100B8B6E7 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

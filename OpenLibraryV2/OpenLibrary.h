@@ -28,6 +28,8 @@
 @property (retain, nonatomic) NSMutableDictionary * books;
 
 -(NSMutableDictionary *) getWorksBasedOnSubject;
--(NSMutableDictionary *) getBooksBasedOnWork:(NSString *) workKey;
+-(NSMutableDictionary *) getBooksBasedOnWork;
+
+-(void)getFromOpenLibrary:(int) typeOfDownload withKey:(NSString *) key;
 
 @end

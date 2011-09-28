@@ -1,43 +1,39 @@
 //
-//  WorksTableViewController.m
+//  BooksTableViewController.m
 //  OpenLibraryV2
 //
-//  Created by Liam Kaufman Simpkins on 11-09-27.
+//  Created by Liam Kaufman Simpkins on 11-09-28.
 //  Copyright 2011 __MyCompanyName__. All rights reserved.
 //
 
-#import "WorksTableViewController.h"
+#import "BooksTableViewController.h"
 
-@implementation WorksTableViewController
+@implementation BooksTableViewController
+@synthesize openLibrary, books;
 
-@synthesize works, openLibrary, subject;
+//- (id)initWithStyle:(UITableViewStyle)style
+//{
+//    self = [super initWithStyle:style];
+//    if (self) {
+//        // Custom initialization
+//    }
+//    return self;
+//}
 
-- (id)initWithStyle:(UITableViewStyle)style
-{
+-(id) initWithWorkKey:(NSString *) newKey style:(UITableViewStyle)style{
     self = [super initWithStyle:style];
     if (self) {
-        // Custom initialization
-    }
-    return self;
-}
 
--(id) initWithSubject:(NSString *) newSubject style:(UITableViewStyle)style {
-    self = [super initWithStyle:style];
-    if (self) {
         openLibrary = [[OpenLibrary alloc] init];
-        self.subject = newSubject;
-        openLibrary.subject = newSubject;
-        works = [[openLibrary getWorksBasedOnSubject] retain];
-        if ([works count] == 0) {
-            NSLog(@"Works is empty");
+        openLibrary.workKey = newKey;
+        books = [[openLibrary getBooksBasedOnWork] retain];
+        if ([books count] == 0) {
+            NSLog(@"Books is empty");
         }
     }
-
     return self;
+    
 }
-
-
-
 
 - (void)didReceiveMemoryWarning
 {
@@ -97,32 +93,26 @@
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
-
+    // Return the number of sections.
     return 1;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-
-    return [works count];
+    // Return the number of rows in the section.
+    return 0;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    static NSString *CellIdentifier = @"Works";
+    static NSString *CellIdentifier = @"Cell";
     
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
     if (cell == nil) {
-        cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:CellIdentifier] autorelease];
+        cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier] autorelease];
     }
     
     // Configure the cell...
-    NSString * key = [[works allKeys] objectAtIndex:indexPath.row];
-    OLWork * work = [works valueForKey:key];
-    
-    cell.textLabel.text = work.title;
-    cell.detailTextLabel.text = work.author;
-    [cell setAccessoryType:UITableViewCellAccessoryDisclosureIndicator];
     
     return cell;
 }
@@ -170,14 +160,14 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    
-    NSString * dictionaryKey = [[works allKeys] objectAtIndex:indexPath.row];
-    OLWork * work = [works valueForKey:dictionaryKey];
-    
-    BooksTableViewController *btvc = [[BooksTableViewController alloc] initWithWorkKey:work.key style:UITableViewStylePlain];
-    [self.navigationController pushViewController:btvc animated:YES];
-    [btvc release];
-
+    // Navigation logic may go here. Create and push another view controller.
+    /*
+     <#DetailViewController#> *detailViewController = [[<#DetailViewController#> alloc] initWithNibName:@"<#Nib name#>" bundle:nil];
+     // ...
+     // Pass the selected object to the new view controller.
+     [self.navigationController pushViewController:detailViewController animated:YES];
+     [detailViewController release];
+     */
 }
 
 @end

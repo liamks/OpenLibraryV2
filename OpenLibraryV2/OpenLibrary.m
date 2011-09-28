@@ -56,16 +56,29 @@
     }
 }
 
--(void)connectionBooks:(NSURLConnection *)connection didReceiveData:(NSData *)data{
+/*
+ 
+ [{"key": "/books/OL11784104M"}, {"key": "/books/OL2386636M"}, {"key": "/books/OL3372656M"}, {"key": "/books/OL18340958M"}, {"key": "/books/OL12372130M"}, {"key": "/books/OL24288542M"}, {"key": "/books/OL10416746M"}, {"key": "/books/OL5877785M"}, {"key": "/books/OL22720503M"}, {"key": "/books/OL7584701M"}, {"key": "/books/OL3783702M"}, {"key": "/books/OL24273050M"}, {"key": "/books/OL926583M"}, {"key": "/books/OL12502473M"}, {"key": "/books/OL22157782M"}, {"key": "/books/OL11346361M"}, {"key": "/books/OL22839448M"}, {"key": "/books/OL17768937M"}, {"key": "/books/OL24284954M"}, {"key": "/books/OL824527M"}]
+ */
 
-        /*
-         1. get key of each book
-         2. Iterate over each key and call getFromOpenLibrary with DOWNLOAD_BOOK_INFO
-         */
+-(void)connectionBooks:(NSURLConnection *)connection didReceiveData:(NSData *)data{
+    NSString *jsonString = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
+    
+    NSDictionary *results = [jsonString JSONValue];
+    
+    
+    for (NSDictionary *newBookKey in results) {
+        NSArray * book = [newBookKey allValues];
+        NSString *stringBookKey = [book objectAtIndex:0];
+        
+        [self getFromOpenLibrary:DOWNLOAD_BOOK_INFO withKey:stringBookKey];
+    }
 
 }
 
 -(void)connectionBookInfos:(NSURLConnection *)connection didReceiveData:(NSData *)data{
+    NSString *jsonString = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
+    NSLog(@"connectionBooks: %@", jsonString);
     /*
      create book instance form JSON and add it to self.books
      */
@@ -78,7 +91,7 @@
 
     
     NSNumber *offset = [NSNumber numberWithInt:0]; //[self getOffset];
-    NSString *urlString;
+    NSString *urlString, *justString ;
     
     switch (typeOfDownload) {
         case DOWNLOAD_WORK:
@@ -86,10 +99,14 @@
             [NSString stringWithFormat:@"http://openlibrary.org/subjects/%@.json?ebooks=true&limit=20&offset=%@", self.subject, [offset stringValue]];
             break;
         case DOWNLOAD_BOOKS:
-            
+            urlString = [NSString stringWithFormat:@"http://openlibrary.org/query.json?type=/type/edition&works=%@", key];
             break;
-            
         case DOWNLOAD_BOOK_INFO:
+            //need to remove first part of key (it's a url)
+            justString = [key substringFromIndex:7];
+            NSLog(@"key: %@", justString);
+            urlString =  [NSString stringWithFormat:@"http://openlibrary.org/api/books?bibkeys=OLID:%@&jscmd=data&format=json", justString];
+            break;
         default:
             break;
     }
@@ -136,8 +153,8 @@
 }
 
 
--(NSMutableDictionary *) getBooksBasedOnWork:(NSString *) newWorkKey{
-    [self getFromOpenLibrary:DOWNLOAD_BOOKS withKey:newWorkKey];
+-(NSMutableDictionary *) getBooksBasedOnWork{
+    [self getFromOpenLibrary:DOWNLOAD_BOOKS withKey:self.workKey];
     return self.books;
 }
 
