@@ -7,13 +7,30 @@
 //
 
 #import "RootViewController.h"
+@interface RootViewController()
+@property (nonatomic, retain) NSDictionary *subjects;
+@end
+
 
 @implementation RootViewController
+@synthesize subjects;
 
+-(NSDictionary *)subjects{
+    if(!subjects){
+        NSArray *values = [[NSArray alloc] initWithObjects: @"Mystery",@"Action",@"Romance",@"History", @"Biography",@"Juvenile Fiction", nil];
+        NSArray *keys = [[NSArray alloc] initWithObjects:@"mystery", @"action", @"romance", @"history",@"biography",@"juvenile_fiction",nil];
+        subjects = [[NSDictionary alloc] initWithObjects:values forKeys:keys];
+        [keys release];
+        [values release];
+    }
+    
+    return subjects;
+}
 
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    self.title = @"Book Subjects";
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -44,6 +61,10 @@
 }
  */
 
+/***********************/
+/*** TABLE FUNCTIONS ***/
+/***********************/
+
 // Customize the number of sections in the table view.
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
@@ -52,20 +73,21 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return 0;
+    return [self.subjects count];
 }
 
 // Customize the appearance of table view cells.
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    static NSString *CellIdentifier = @"Cell";
+    static NSString *CellIdentifier = @"BookSubjects";
     
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
     if (cell == nil) {
         cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier] autorelease];
     }
-
-    // Configure the cell.
+    
+    cell.textLabel.text = [[subjects allValues] objectAtIndex:indexPath.row];
+    [cell setAccessoryType:UITableViewCellAccessoryDisclosureIndicator];
     return cell;
 }
 
@@ -112,13 +134,19 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    /*
-    <#DetailViewController#> *detailViewController = [[<#DetailViewController#> alloc] initWithNibName:@"<#Nib name#>" bundle:nil];
-    // ...
-    // Pass the selected object to the new view controller.
-    [self.navigationController pushViewController:detailViewController animated:YES];
-    [detailViewController release];
-	*/
+    
+    WorksTableViewController *wtvc = [[WorksTableViewController alloc] 
+                                      initWithSubject:[[subjects allKeys] objectAtIndex:indexPath.row]
+                                     style:UITableViewStylePlain];
+    
+    
+
+    wtvc.title = [[subjects allValues] objectAtIndex:indexPath.row];
+
+    
+    [self.navigationController pushViewController:wtvc animated:YES];
+    [wtvc release];
+
 }
 
 - (void)didReceiveMemoryWarning
@@ -139,6 +167,7 @@
 
 - (void)dealloc
 {
+    [subjects release];
     [super dealloc];
 }
 

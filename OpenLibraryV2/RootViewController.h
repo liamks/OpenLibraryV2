@@ -7,7 +7,10 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "WorksTableViewController.h"
 
-@interface RootViewController : UITableViewController
+@interface RootViewController : UITableViewController{
+    NSDictionary *subjects;
+}
 
 @end
