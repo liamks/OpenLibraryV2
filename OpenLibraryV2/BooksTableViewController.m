@@ -118,6 +118,7 @@
     
     cell.textLabel.text = book.title;
     cell.detailTextLabel.text = book.author;
+    cell.imageView.image = [UIImage imageWithData:[NSData dataWithContentsOfURL:book.smallCover]];
     //[cell setAccessoryType:UITableViewCellAccessoryDisclosureIndicator];
     
     return cell;

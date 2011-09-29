@@ -17,8 +17,14 @@
 
 -(NSDictionary *)subjects{
     if(!subjects){
-        NSArray *values = [[NSArray alloc] initWithObjects: @"Mystery",@"Action",@"Romance",@"History", @"Biography",@"Juvenile Fiction", nil];
-        NSArray *keys = [[NSArray alloc] initWithObjects:@"mystery", @"action", @"romance", @"history",@"biography",@"juvenile_fiction",nil];
+        NSArray *values = [[NSArray alloc] initWithObjects: @"Mystery",@"Action",@"Romance",
+                                                            @"History", @"Biography",@"Juvenile Fiction", 
+                                                            @"Classical Mythology", @"Adventure & Adventurers", @"Science", 
+                                                            @"Political Science", @"Arts", @"Business", nil];
+        NSArray *keys = [[NSArray alloc] initWithObjects:@"mystery", @"action", @"romance", 
+                                                         @"history",@"biography",@"juvenile_fiction",
+                                                         @"classical_mythology", @"adventure_and_adventurers", @"science", 
+                                                         @"political_science",@"arts", @"business", nil];
         subjects = [[NSDictionary alloc] initWithObjects:values forKeys:keys];
         [keys release];
         [values release];

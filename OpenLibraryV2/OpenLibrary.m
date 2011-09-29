@@ -87,11 +87,7 @@
     if (ebookArray) {
         
         NSString * epubURL = [[[[ebookArray objectAtIndex:0] valueForKey:@"formats"] valueForKey:@"epub"] valueForKey:@"url"];
-        /*
-        @property (retain, nonatomic) NSURL *smallCover;
-        @property (retain, nonatomic) NSURL *epubLink;
-        @property (retain, nonatomic) NSURL *daisyLink;
-        @property (retain, nonatomic) NSNumber *numPages;*/
+
         
         newBook = [[OLBook alloc] init];
         
@@ -130,7 +126,6 @@
         case DOWNLOAD_BOOK_INFO:
             //need to remove first part of key (it's a url)
             justString = [key substringFromIndex:7];
-            NSLog(@"key: %@", justString);
             urlString =  [NSString stringWithFormat:@"http://openlibrary.org/api/books?bibkeys=OLID:%@&jscmd=data&format=json", justString];
             break;
         default:
