@@ -33,6 +33,7 @@
 		88B2CC0B1432719A00B8B6E7 /* OpenLibrary.m in Sources */ = {isa = PBXBuildFile; fileRef = 88B2CC0A1432719A00B8B6E7 /* OpenLibrary.m */; };
 		88B2CC0E143272E300B8B6E7 /* OLWork.m in Sources */ = {isa = PBXBuildFile; fileRef = 88B2CC0D143272E200B8B6E7 /* OLWork.m */; };
 		88B3419C14336EE000B68DCC /* BooksTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 88B3419B14336EE000B68DCC /* BooksTableViewController.m */; };
+		88B341A0143380AF00B68DCC /* OLBook.m in Sources */ = {isa = PBXBuildFile; fileRef = 88B3419F143380AF00B68DCC /* OLBook.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -85,6 +86,8 @@
 		88B2CC0D143272E200B8B6E7 /* OLWork.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OLWork.m; sourceTree = "<group>"; };
 		88B3419A14336EE000B68DCC /* BooksTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BooksTableViewController.h; sourceTree = "<group>"; };
 		88B3419B14336EE000B68DCC /* BooksTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BooksTableViewController.m; sourceTree = "<group>"; };
+		88B3419E143380AF00B68DCC /* OLBook.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OLBook.h; sourceTree = "<group>"; };
+		88B3419F143380AF00B68DCC /* OLBook.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OLBook.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -146,6 +149,8 @@
 				88B2CBC214326D7000B8B6E7 /* Supporting Files */,
 				88B2CC091432719A00B8B6E7 /* OpenLibrary.h */,
 				88B2CC0A1432719A00B8B6E7 /* OpenLibrary.m */,
+				88B3419E143380AF00B68DCC /* OLBook.h */,
+				88B3419F143380AF00B68DCC /* OLBook.m */,
 				88B2CC0C143272E200B8B6E7 /* OLWork.h */,
 				88B2CC0D143272E200B8B6E7 /* OLWork.m */,
 			);
@@ -285,6 +290,7 @@
 				88B2CC0B1432719A00B8B6E7 /* OpenLibrary.m in Sources */,
 				88B2CC0E143272E300B8B6E7 /* OLWork.m in Sources */,
 				88B3419C14336EE000B68DCC /* BooksTableViewController.m in Sources */,
+				88B341A0143380AF00B68DCC /* OLBook.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

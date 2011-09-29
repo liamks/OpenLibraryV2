@@ -56,10 +56,7 @@
     }
 }
 
-/*
- 
- [{"key": "/books/OL11784104M"}, {"key": "/books/OL2386636M"}, {"key": "/books/OL3372656M"}, {"key": "/books/OL18340958M"}, {"key": "/books/OL12372130M"}, {"key": "/books/OL24288542M"}, {"key": "/books/OL10416746M"}, {"key": "/books/OL5877785M"}, {"key": "/books/OL22720503M"}, {"key": "/books/OL7584701M"}, {"key": "/books/OL3783702M"}, {"key": "/books/OL24273050M"}, {"key": "/books/OL926583M"}, {"key": "/books/OL12502473M"}, {"key": "/books/OL22157782M"}, {"key": "/books/OL11346361M"}, {"key": "/books/OL22839448M"}, {"key": "/books/OL17768937M"}, {"key": "/books/OL24284954M"}, {"key": "/books/OL824527M"}]
- */
+
 
 -(void)connectionBooks:(NSURLConnection *)connection didReceiveData:(NSData *)data{
     NSString *jsonString = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
@@ -78,10 +75,39 @@
 
 -(void)connectionBookInfos:(NSURLConnection *)connection didReceiveData:(NSData *)data{
     NSString *jsonString = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
-    NSLog(@"connectionBooks: %@", jsonString);
-    /*
-     create book instance form JSON and add it to self.books
-     */
+
+    NSDictionary *results = [jsonString JSONValue];
+    NSDictionary *actualBook = [[results allValues] objectAtIndex:0];
+    
+    OLBook * newBook;
+    
+    NSArray *ebookArray = [actualBook valueForKey:@"ebooks"];
+    NSString *key = [[results allKeys] objectAtIndex:0];
+    
+    if (ebookArray) {
+        
+        NSString * epubURL = [[[[ebookArray objectAtIndex:0] valueForKey:@"formats"] valueForKey:@"epub"] valueForKey:@"url"];
+        /*
+        @property (retain, nonatomic) NSURL *smallCover;
+        @property (retain, nonatomic) NSURL *epubLink;
+        @property (retain, nonatomic) NSURL *daisyLink;
+        @property (retain, nonatomic) NSNumber *numPages;*/
+        
+        newBook = [[OLBook alloc] init];
+        
+        newBook.key = [key substringFromIndex:5];
+        newBook.title = [actualBook valueForKey:@"title"];
+        newBook.author = [[[actualBook objectForKey:@"authors"] objectAtIndex:0] objectForKey:@"name"];
+        newBook.numPages = [NSNumber numberWithInt:[[actualBook valueForKey:@"number_of_pages"] intValue]] ;
+        newBook.smallCover = [NSURL URLWithString:[[actualBook valueForKey:@"cover"] valueForKey:@"small"]];
+        newBook.epubLink = [NSURL URLWithString: epubURL];
+        
+        [self.books setValue:newBook forKey:key];
+        [newBook release];
+        
+    }else{
+        NSLog(@"Has NO ebooks, %@", [actualBook valueForKey:@"title"]);
+    }
 }
 
 

@@ -7,7 +7,8 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "OLWork.h"
+
+#import "OLBook.h"
 /*
  
  1. get works based on subject
