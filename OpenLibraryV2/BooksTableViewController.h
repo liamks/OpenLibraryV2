@@ -8,8 +8,10 @@
 
 #import <UIKit/UIKit.h>
 #import "OpenLibrary.h"
+#import "MBProgressHUD.h"
 
-@interface BooksTableViewController : UITableViewController{
+@interface BooksTableViewController : UITableViewController <MBProgressHUDDelegate, UIAlertViewDelegate>{
+    MBProgressHUD *HUD;
     
 }
 

@@ -27,11 +27,25 @@
         openLibrary = [[OpenLibrary alloc] init];
         openLibrary.workKey = newKey;
         
-        [openLibrary performSelectorInBackground:@selector(getBooksBasedOnWork:) withObject:self];
+        //UINavigationController *nav = self.navigationController;
+        
+        [self.navigationItem setHidesBackButton:YES];
+        
+        
+        //[openLibrary performSelectorInBackground:@selector(getBooksBasedOnWork:) withObject:self];
+        //self.parentViewController.navigationController.view
+        UIWindow *window = [UIApplication sharedApplication].keyWindow;
+        
+        HUD = [[MBProgressHUD alloc] initWithWindow:window];
+        [window addSubview:HUD];
+        
+        HUD.delegate = self;
+        HUD.labelText = @"Loading Books...";
+        
+        [HUD showWhileExecuting:@selector(getBooksBasedOnWork:) onTarget:openLibrary withObject:self animated:YES];
+        
         //[openLibrary getBooksBasedOnWork:self.books];
-        if ([books count] == 0) {
-            NSLog(@"Books is empty");
-        }
+
         self.tableView.rowHeight = 100.0f;
     }
     return self;
@@ -187,5 +201,33 @@
      [detailViewController release];
      */
 }
+
+
+/* HUD */
+
+- (void)hudWasHidden:(MBProgressHUD *)hud {
+    // Remove HUD from screen when the HUD was hidded
+    [self.navigationItem setHidesBackButton:NO];
+
+    [HUD removeFromSuperview];
+    [HUD release];
+	HUD = nil;
+    
+    if ([books count] == 0) {
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"No Books Found." 
+                                                        message:@"There were no books, with ebooks, found for that work." 
+                                                       delegate:self
+                                              cancelButtonTitle:@"OK"
+                                              otherButtonTitles:nil];
+        [alert show];
+        [alert release];
+        
+    }
+}
+
+- (void)alertView:(UIAlertView *)alertView willDismissWithButtonIndex:(NSInteger)buttonIndex{
+    [self.navigationController popViewControllerAnimated:YES];
+}
+
 
 @end
