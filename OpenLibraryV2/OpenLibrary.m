@@ -8,6 +8,7 @@
 
 #import "OpenLibrary.h"
 #import "SBJSON.h"
+#import "BooksTableViewController.h"
 
 #define DOWNLOAD_WORK 1
 #define DOWNLOAD_BOOKS 2
@@ -95,7 +96,7 @@
         newBook.title = [actualBook valueForKey:@"title"];
         newBook.author = [[[actualBook objectForKey:@"authors"] objectAtIndex:0] objectForKey:@"name"];
         newBook.numPages = [NSNumber numberWithInt:[[actualBook valueForKey:@"number_of_pages"] intValue]] ;
-        newBook.smallCover = [NSURL URLWithString:[[actualBook valueForKey:@"cover"] valueForKey:@"small"]];
+        newBook.smallCover = [NSURL URLWithString:[[actualBook valueForKey:@"cover"] valueForKey:@"medium"]];
         newBook.epubLink = [NSURL URLWithString: epubURL];
         
         [self.books setValue:newBook forKey:key];
@@ -174,9 +175,16 @@
 }
 
 
--(NSMutableDictionary *) getBooksBasedOnWork{
+-(void) getBooksBasedOnWork: (id) anObject{
+    NSAutoreleasePool *pool;
+    pool = [[NSAutoreleasePool alloc] init];
+    
     [self getFromOpenLibrary:DOWNLOAD_BOOKS withKey:self.workKey];
-    return self.books;
+    BooksTableViewController * btvc = [[[BooksTableViewController alloc] init] autorelease];
+    btvc = anObject;
+    btvc.books = self.books;
+    btvc.tableView.reloadData;
+    [pool drain];
 }
 
 

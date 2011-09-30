@@ -26,10 +26,13 @@
 
         openLibrary = [[OpenLibrary alloc] init];
         openLibrary.workKey = newKey;
-        books = [[openLibrary getBooksBasedOnWork] retain];
+        
+        [openLibrary performSelectorInBackground:@selector(getBooksBasedOnWork:) withObject:self];
+        //[openLibrary getBooksBasedOnWork:self.books];
         if ([books count] == 0) {
             NSLog(@"Books is empty");
         }
+        self.tableView.rowHeight = 100.0f;
     }
     return self;
     
@@ -119,6 +122,14 @@
     cell.textLabel.text = book.title;
     cell.detailTextLabel.text = book.author;
     cell.imageView.image = [UIImage imageWithData:[NSData dataWithContentsOfURL:book.smallCover]];
+    
+    /* LARGE SIZE FOR POOR VISION! */
+    cell.textLabel.font = [UIFont boldSystemFontOfSize:22.0f];
+    cell.detailTextLabel.font = [UIFont systemFontOfSize:18.0f];
+
+
+    //NSLog(@"Origin x: %@| Origin y: %@| width: %@| height: %@", frame.origin.x, frame.origin.y, frame.size.width, frame.size.height);
+    
     //[cell setAccessoryType:UITableViewCellAccessoryDisclosureIndicator];
     
     return cell;

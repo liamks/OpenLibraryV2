@@ -37,10 +37,12 @@
 {
     [super viewDidLoad];
     self.title = @"Book Subjects";
+    
 }
 
 - (void)viewWillAppear:(BOOL)animated
 {
+    self.tableView.rowHeight = 90.0f;
     [super viewWillAppear:animated];
 }
 
@@ -94,6 +96,11 @@
     
     cell.textLabel.text = [[subjects allValues] objectAtIndex:indexPath.row];
     [cell setAccessoryType:UITableViewCellAccessoryDisclosureIndicator];
+    
+    /* LARGE SIZE FOR POOR VISION! */
+    cell.textLabel.font = [UIFont boldSystemFontOfSize:22.0f];
+    cell.detailTextLabel.font = [UIFont systemFontOfSize:18.0f];
+    
     return cell;
 }
 

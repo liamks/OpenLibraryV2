@@ -31,6 +31,8 @@
         if ([works count] == 0) {
             NSLog(@"Works is empty");
         }
+        
+        self.tableView.rowHeight = 90.0f;
     }
 
     return self;
@@ -123,6 +125,10 @@
     cell.textLabel.text = work.title;
     cell.detailTextLabel.text = work.author;
     [cell setAccessoryType:UITableViewCellAccessoryDisclosureIndicator];
+    
+    /* LARGE SIZE FOR POOR VISION! */
+    cell.textLabel.font = [UIFont boldSystemFontOfSize:22.0f];
+    cell.detailTextLabel.font = [UIFont systemFontOfSize:18.0f];
     
     return cell;
 }

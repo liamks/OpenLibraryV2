@@ -29,7 +29,9 @@
 @property (retain, nonatomic) NSMutableDictionary * books;
 
 -(NSMutableDictionary *) getWorksBasedOnSubject;
--(NSMutableDictionary *) getBooksBasedOnWork;
+//-(NSMutableDictionary *) getBooksBasedOnWork: (NSMutableDictionary *) books;
+-(void) getBooksBasedOnWork: (id) anObject;
+
 
 -(void)getFromOpenLibrary:(int) typeOfDownload withKey:(NSString *) key;
 
