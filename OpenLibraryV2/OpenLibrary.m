@@ -8,7 +8,6 @@
 
 #import "OpenLibrary.h"
 #import "SBJSON.h"
-#import "BooksTableViewController.h"
 
 #define DOWNLOAD_WORK 1
 #define DOWNLOAD_BOOKS 2
@@ -23,7 +22,7 @@
  */
 @implementation OpenLibrary
 
-@synthesize subject, workKey, bookKey, works, books;
+@synthesize subject, workKey, bookKey, works, books, delegate;
 
 - (id)init
 {
@@ -36,7 +35,8 @@
     return self;
 }
 
--(void)connectionWorks:(NSURLConnection *)connection didReceiveData:(NSData *)data{
+//-(void)connectionWorks:(NSURLConnection *)connection didReceiveData:(NSData *)data{
+-(void) parseWorksData:(NSData *)data{
     OLWork *newWork;
     
     NSString *jsonString = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
@@ -45,6 +45,8 @@
     
     NSArray *rawBooks = [results objectForKey:@"works"];
     
+    self.works = [[NSMutableDictionary alloc] init];
+
     for (NSDictionary *work in rawBooks) {
         
         newWork = [[OLWork alloc] init];
@@ -53,13 +55,18 @@
         newWork.key = [work objectForKey:@"key"];
         
         [self.works setValue:newWork forKey:newWork.title];
+        [newWork release];
         
     }
+    
+   
+    [jsonString release];
 }
 
 
 
--(void)connectionBooks:(NSURLConnection *)connection didReceiveData:(NSData *)data{
+//-(void)connectionBooks:(NSURLConnection *)connection didReceiveData:(NSData *)data{
+-(void)parseBookData:(NSData *)data{
     NSString *jsonString = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
     
     NSDictionary *results = [jsonString JSONValue];
@@ -71,10 +78,12 @@
         
         [self getFromOpenLibrary:DOWNLOAD_BOOK_INFO withKey:stringBookKey];
     }
+    [jsonString release];
 
 }
 
--(void)connectionBookInfos:(NSURLConnection *)connection didReceiveData:(NSData *)data{
+//-(void)connectionBookInfos:(NSURLConnection *)connection didReceiveData:(NSData *)data{
+-(void)parseBookInfo:(NSData *)data{
     NSString *jsonString = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
 
     NSDictionary *results = [jsonString JSONValue];
@@ -84,9 +93,9 @@
     
     NSArray *ebookArray = [actualBook valueForKey:@"ebooks"];
     NSString *key = [[results allKeys] objectAtIndex:0];
-    
+   
     if (ebookArray) {
-        
+       
         NSString * epubURL = [[[[ebookArray objectAtIndex:0] valueForKey:@"formats"] valueForKey:@"epub"] valueForKey:@"url"];
 
         
@@ -98,21 +107,22 @@
         newBook.numPages = [NSNumber numberWithInt:[[actualBook valueForKey:@"number_of_pages"] intValue]] ;
         newBook.smallCover = [NSURL URLWithString:[[actualBook valueForKey:@"cover"] valueForKey:@"medium"]];
         newBook.epubLink = [NSURL URLWithString: epubURL];
+        newBook.cover = [UIImage imageWithData:[NSData dataWithContentsOfURL:newBook.smallCover]];
         
         [self.books setValue:newBook forKey:key];
         [newBook release];
+     
         
-    }else{
-        NSLog(@"Has NO ebooks, %@", [actualBook valueForKey:@"title"]);
     }
+    
+    [jsonString release];
 }
 
 
 
 -(void)getFromOpenLibrary:(int) typeOfDownload withKey:(NSString *) key{
     
-
-    
+    [key retain];
     NSNumber *offset = [NSNumber numberWithInt:0]; //[self getOffset];
     NSString *urlString, *justString ;
     
@@ -142,21 +152,25 @@
     NSURLResponse *response = nil;
     NSError *error;
     
+    NSLog(@"Before synch");
     NSData *data = [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&error];
-    
-    NSURLConnection *c = [[NSURLConnection alloc] init];
+    NSLog(@"After synch");
+    //NSURLConnection *c = [[NSURLConnection alloc] init];
     
     
     switch (typeOfDownload) {
         case DOWNLOAD_WORK:
-            [self connectionWorks:c didReceiveData:data];
+            //[self connectionWorks:c didReceiveData:data];
+            [self parseWorksData:data];
             break;
         case DOWNLOAD_BOOKS:
-            [self connectionBooks:c didReceiveData:data];
+            //[self connectionBooks:c didReceiveData:data];
+            [self parseBookData:data];
             break;
             
         case DOWNLOAD_BOOK_INFO:
-            [self connectionBookInfos:c didReceiveData:data];
+            //[self connectionBookInfos:c didReceiveData:data];
+            [self parseBookInfo:data];
             break;
         default:
             break;
@@ -164,7 +178,9 @@
     
     //[response release];
     //[error release];
+    //[c release];
     [request release];
+    [key release];
 }
 
 
@@ -175,22 +191,25 @@
 }
 
 
--(void) getBooksBasedOnWork: (id) anObject{
+-(void) getBooksBasedOnWork{
     NSAutoreleasePool *pool;
     pool = [[NSAutoreleasePool alloc] init];
     
     [self getFromOpenLibrary:DOWNLOAD_BOOKS withKey:self.workKey];
-    BooksTableViewController * btvc = [[[BooksTableViewController alloc] init] autorelease];
-    btvc = anObject;
-    btvc.books = self.books;
-    btvc.tableView.reloadData;
+
+    [delegate getData:self.books];
+
     [pool drain];
 }
 
 
 
 
-
+-(void) dealloc{
+    [workKey release];
+    [works release];
+    [super dealloc];
+}
 
 
 @end

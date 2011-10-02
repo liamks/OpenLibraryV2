@@ -10,7 +10,7 @@
 #import "OpenLibrary.h"
 #import "MBProgressHUD.h"
 
-@interface BooksTableViewController : UITableViewController <MBProgressHUDDelegate, UIAlertViewDelegate>{
+@interface BooksTableViewController : UITableViewController <MBProgressHUDDelegate, UIAlertViewDelegate, ProcessDataDelegate>{
     MBProgressHUD *HUD;
     
 }
@@ -21,3 +21,6 @@
 -(id) initWithWorkKey:(NSString *) newKey style:(UITableViewStyle)style;
 
 @end
+
+
+

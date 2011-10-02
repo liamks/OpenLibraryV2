@@ -25,6 +25,7 @@
     if (self) {
 
         openLibrary = [[OpenLibrary alloc] init];
+        openLibrary.delegate = self;
         openLibrary.workKey = newKey;
         
         //UINavigationController *nav = self.navigationController;
@@ -42,11 +43,11 @@
         HUD.delegate = self;
         HUD.labelText = @"Loading Books...";
         
-        [HUD showWhileExecuting:@selector(getBooksBasedOnWork:) onTarget:openLibrary withObject:self animated:YES];
+        [HUD showWhileExecuting:@selector(getBooksBasedOnWork) onTarget:openLibrary withObject:nil animated:YES];
         
         //[openLibrary getBooksBasedOnWork:self.books];
 
-        self.tableView.rowHeight = 100.0f;
+        self.tableView.rowHeight = 140.0f;
     }
     return self;
     
@@ -117,11 +118,14 @@
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
     // Return the number of rows in the section.
+
     return [books count];;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    
+   
     static NSString *CellIdentifier = @"Books";
     
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
@@ -135,7 +139,7 @@
     
     cell.textLabel.text = book.title;
     cell.detailTextLabel.text = book.author;
-    cell.imageView.image = [UIImage imageWithData:[NSData dataWithContentsOfURL:book.smallCover]];
+    cell.imageView.image = book.cover;//[UIImage imageWithData:[NSData dataWithContentsOfURL:book.smallCover]];
     
     /* LARGE SIZE FOR POOR VISION! */
     cell.textLabel.font = [UIFont boldSystemFontOfSize:22.0f];
@@ -202,13 +206,20 @@
      */
 }
 
+-(void) getData: (NSMutableDictionary *) data{
+    self.books = data;
+    [books retain];
+
+}
 
 /* HUD */
 
 - (void)hudWasHidden:(MBProgressHUD *)hud {
-    // Remove HUD from screen when the HUD was hidded
+    
     [self.navigationItem setHidesBackButton:NO];
-
+    // Remove HUD from screen when the HUD was hidded
+    
+ 
     [HUD removeFromSuperview];
     [HUD release];
 	HUD = nil;
@@ -222,11 +233,20 @@
         [alert show];
         [alert release];
         
+    }else{
+        [self.tableView reloadData];
     }
+ 
 }
 
 - (void)alertView:(UIAlertView *)alertView willDismissWithButtonIndex:(NSInteger)buttonIndex{
     [self.navigationController popViewControllerAnimated:YES];
+}
+
+-(void) dealloc{
+    [openLibrary release];
+    [books release];
+    [super dealloc];
 }
 
 

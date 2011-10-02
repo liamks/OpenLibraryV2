@@ -17,5 +17,6 @@
 @property (retain, nonatomic) NSURL *epubLink;
 @property (retain, nonatomic) NSURL *daisyLink;
 @property (retain, nonatomic) NSNumber *numPages;
+@property (retain, nonatomic) UIImage *cover; 
 
 @end

@@ -186,4 +186,10 @@
 
 }
 
+-(void)dealloc{
+    [openLibrary release];
+    [works release];
+    [super dealloc];
+}
+
 @end

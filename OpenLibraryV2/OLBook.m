@@ -10,7 +10,7 @@
 
 @implementation OLBook
 
-@synthesize smallCover, epubLink, daisyLink, numPages;
+@synthesize smallCover, epubLink, daisyLink, numPages, cover;
 - (id)init
 {
     self = [super init];

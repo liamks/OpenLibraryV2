@@ -18,9 +18,19 @@
  */
 
 
+
+@protocol ProcessDataDelegate <NSObject>
+@required
+-(void) getData: (NSMutableDictionary *) data;
+
+@end
+
 @interface OpenLibrary : NSObject{
-    
+    id <ProcessDataDelegate> delegate;
 }
+
+
+@property (retain) id delegate;
 
 @property (retain, nonatomic) NSString * subject;
 @property (retain, nonatomic) NSString * workKey;
@@ -30,7 +40,7 @@
 
 -(NSMutableDictionary *) getWorksBasedOnSubject;
 //-(NSMutableDictionary *) getBooksBasedOnWork: (NSMutableDictionary *) books;
--(void) getBooksBasedOnWork: (id) anObject;
+-(void) getBooksBasedOnWork;
 
 
 -(void)getFromOpenLibrary:(int) typeOfDownload withKey:(NSString *) key;
